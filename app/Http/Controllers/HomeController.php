@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colaborador;
 use App\Models\Projeto;
+use App\Models\Tarefa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Constraint\IsEmpty;
@@ -32,9 +33,9 @@ class HomeController extends Controller
     {
         $projetos = Projeto::all();
         $colaboradores = Colaborador::all();
-        $colaboradorMelhorDesempenho = null;
+        $colaboradorMelhorDesempenho = null;       
+        $tarefas = Tarefa::paginate(3);
 
-        
-        return view('home', ['projetos' => $projetos, 'colaboradores' => $colaboradores, 'colaboradorMelhorDesempenho' => $colaboradorMelhorDesempenho]);
+        return view('home', ['tarefas' => $tarefas, 'projetos' => $projetos, 'colaboradores' => $colaboradores, 'colaboradorMelhorDesempenho' => $colaboradorMelhorDesempenho]);
     }
 }

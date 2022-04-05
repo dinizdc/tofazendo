@@ -30,7 +30,9 @@
                          </div>
                          <div class="stat-content">
                              <div class="text-left dib">
-                                 <div class="stat-text"><span class="count">3435</span></div>
+                                 <div class="stat-text"><span
+                                         class="count">{{ $tarefas->total() }}</span>
+                                 </div>
                                  <div class="stat-heading">Tarefas</div>
                              </div>
                          </div>
@@ -161,34 +163,54 @@
              </div>
              <div class="card-body--">
                  <div class="table-stats order-table ov-h">
-                     <table class="table ">
+                     <table class="table">
                          <thead>
                              <tr>
                                  <th class="serial">#</th>
                                  <th>Projeto</th>
                                  <th>Tarefa</th>
-                                 <th>Descrição</th>
                                  <th>Criada por</th>
                                  <th>Data</th>
                                  <th></th>
                              </tr>
+                             {{-- <tr>
+                                 <th>Descrição</th>
+                             </tr> --}}
                          </thead>
                          <tbody>
-                             <tr>
-                                 <td class="serial">1.</td>
-                                 <td> Tô Fazendo</td>
-                                 <td> Inserir modal na tela principal</td>
-                                 <td> <span class="name">Lorem ipsum dolor sit amet consectetur
-                                         adipisicing elit. Laudantium, nostrum aspernatur nesciunt eos fugit
-                                         cumque dolor rem tempore adipisci saepe. Nemo, praesentium delectus
-                                         impedit mollitia explicabo numquam molestias aspernatur
-                                         reprehenderit.</span> </td>
-                                 <td><span>João da Silva</span></td>
-                                 <td><span>23/03/2022</span></td>
-                                 <td><button type="button" class="btn btn-outline-success btn-sm">Executar</button>
-                                 </td>
-                             </tr>
+                             @foreach ($tarefas as $tarefa)
+                                 <tr>
+                                     <td class="serial">{{ ++$loop->index }}</td>
+                                     <td> {{ $tarefa->projeto->nome }}</td>
+                                     <td> {{ $tarefa->nome }}</td>
+                                     <td> {{ $tarefa->colaborador->user->name }}</td>
+                                     <td> {{ $tarefa->created_at }}</td>
+                                     <td><button type="button" class="btn btn-outline-success btn-sm">Executar</button>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td colspan="12">
+                                         <table>
+
+                                             <tbody>
+                                                 {{-- <tr> --}}
+                                                 <td class="ml-3"><strong>Descrição</strong>
+                                                     <small>{{ $tarefa->descricao }}</small>
+                                                 </td>
+                                                 {{-- </tr> --}}
+                                             </tbody>
+                                         </table>
+                                     </td>
+                                 </tr>
+                             @endforeach
                          </tbody>
+                         <tfoot>
+                             @if ($tarefas->count() > 0)
+                                 <div class="card-footer">
+                                     {{ $tarefas->links('pagination::bootstrap-5') }}
+                                 </div>
+                             @endif
+                         </tfoot>
                      </table>
                  </div> <!-- /.table-stats -->
              </div>
