@@ -98,6 +98,15 @@ class TarefaController extends Controller
         return response()->json(['success' => 'Tarefa adicionada com sucesso!']);
     }
 
+    public function tarefasDatatableAjax(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Tarefa::latest()->get();
+
+            return datatables($data)->toJson();
+        }
+    }
+
     /**
      * Display the specified resource.
      *

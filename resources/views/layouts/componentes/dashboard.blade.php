@@ -216,6 +216,37 @@
              </div>
          </div> <!-- /.card -->
      </div> <!-- /.col-lg-12 -->
+     <div class="col-xl-12">
+         <div class="card">
+             <div class="card-body">
+                 <h4 class="box-title">Tarefas </h4>
+             </div>
+             <div class="card-body--">
+                 <div class="table-stats order-table ov-h">
+                     <table class="table tarefas-ajax-datatable">
+                         <thead>
+                             <tr>
+                                 <th></th>
+                                 <th>Projeto</th>
+                                 <th></th>
+                                 <th>Projeto</th>
+                                 <th></th>
+                                 <th>Projeto</th>
+                                 <th></th>
+                                 <th>Projeto</th>
+                                 {{-- <th>Tarefa</th>
+                                 <th>Criado por</th>
+                                 <th>Data</th>
+                                 <th></th> --}}
+                             </tr>
+                         </thead>
+                         <tbody>
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+         </div>
+     </div>
      <div class="col">
          <div class="col-md-12">
              <section class="card">
@@ -392,4 +423,85 @@
  </div>
  <!-- .animated -->
  @section('js-extra')
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+     <script type="text/javascript">
+         $(document).ready(function() {
+             $.ajax({
+                 url: '/tarefas-datatable-ajax',
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                 cache: false,
+                 type: 'POST',
+                 success: function(d) {
+                     //  for (var i = 0; i < d.data.length; i++) {
+                     //      console.log(i, d.data[i]); // i é o índice, matriz[i] é o valor
+                     //     //  console.log(i, d.data[i].name)
+                     //  }
+                     $('.tarefas-ajax-datatable').DataTable({
+                             dom: "Bfrtip",
+                             data: d.data,
+                             columns: d.columns
+                         }
+                         //  {
+                         //      processing: true,
+                         //      serverSide: true,
+                         //      columns: [{
+                         //              data: data.id,
+                         //              name: 'd.data.id'
+                         //          },
+                         //          {
+                         //              data: data.id,
+                         //              name: 'd.data.id'
+                         //          },
+                         //          //  {
+                         //          //      data: 'nome',
+                         //          //      name: 'nome'
+                         //          //  },
+                         //          //  {
+                         //          //      data: 'nome',
+                         //          //      name: 'nome'
+                         //          //  },
+                         //          //  {
+                         //          //      data: 'nome',
+                         //          //      name: 'nome'
+                         //          //  },
+                         //          //  {
+                         //          //      data: 'nome',
+                         //          //      name: 'nome'
+                         //          //  }
+                         //      ]
+                         //  }
+
+                     );
+                 },
+                 error: function(jqXHR, exception) {
+                     var msg = '';
+                     if (jqXHR.status === 0) {
+                         msg = 'Sem conexão.\n Verifique a rede.';
+                     } else if (jqXHR.status == 404) {
+                         msg = 'Requested page not found. [404]';
+                     } else if (jqXHR.status == 500) {
+                         msg = 'Internal Server Error [500].';
+                     } else if (exception === 'parsererror') {
+                         msg = 'Requested JSON parse failed.';
+                     } else if (exception === 'timeout') {
+                         msg = 'Time out error.';
+                     } else if (exception === 'abort') {
+                         msg = 'Ajax request aborted.';
+                     } else {
+                         msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                     }
+                     console.log(msg);
+                 }
+             });
+         });
+     </script>
+     <script type="text/javascript">
+
+     </script>
  @endsection

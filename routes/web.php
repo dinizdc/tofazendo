@@ -33,3 +33,4 @@ Route::resource('tarefas', TarefaController::class)->parameter('tarefas', 'taref
 Route::resource('tarefasativas', TarefaAtivaController::class)->parameter('tarefasativas', 'tarefaativa');
 
 Route::post('tarefas-store-ajax', [TarefaController::class, 'tarefasStoreAjax']);
+Route::post('tarefas-datatable-ajax', [TarefaController::class, 'tarefasDatatableAjax'])->name('tarefas-datatable-ajax');
